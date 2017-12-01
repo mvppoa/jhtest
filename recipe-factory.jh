@@ -1,0 +1,57 @@
+entity Recipe {
+	description String
+    prepTime Integer
+    cookingTime Integer
+    source String
+    directions String
+    dificulty Difficulty
+    image Byte[]
+}
+
+enum Difficulty {
+	EASY, MODERATE, HARD
+}
+
+entity Notes {
+	notes String
+}
+
+entity Ingredient {
+	description String
+    amount BigDecimal
+}
+
+entity UnitOfMeasure{
+	uom String
+}
+
+entity Category{
+	categoryName String
+}
+
+relationship OneToOne{
+	Recipe{notes} to Notes
+}
+
+relationship OneToMany{
+	Recipe{ingredient} to Ingredient
+}
+
+relationship OneToOne{
+	Ingredient{unitOfMeasure} to UnitOfMeasure
+}
+
+relationship ManyToMany{
+	Recipe{category} to Category
+}
+
+// Set pagination options
+paginate Recipe with infinite-scroll
+//paginate Job with pagination
+
+dto * with mapstruct
+
+//Set service options to all
+service all with serviceImpl except UnitOfMeasure, Category
+//Set an angular suffix
+angularSuffix * with mySuffix
